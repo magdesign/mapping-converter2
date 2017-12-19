@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="677.333mm" height="381mm"
+ viewBox="0 0 1920 1080"
+ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  version="1.2" baseProfile="tiny">
+<title>SVG export from MAPIO</title>
+<desc>An SVG created by the Visution MAPIO</desc>
+<defs>
+</defs>
+<g fill="none" stroke="black" stroke-width="1" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="bevel" >
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="Lucida Grande" font-size="16" font-weight="100" font-style="normal" 
+>
+<path vector-effect="non-scaling-stroke" fill-rule="evenodd" d="M615.528,144.772 L696.995,135.723 L778.462,126.675 L859.929,117.627 L941.396,108.579 L1022.86,99.5305 L1104.33,90.4823 L1185.8,81.434 L1267.26,72.3858 L1348.73,63.3376 L1430.2,54.2894 L1511.67,45.2411 L1593.13,36.1929 L1674.6,27.1447 L1756.07,18.0965 L1837.53,9.04823 L1919,0 L1919,67.4375 L1919,134.875 L1919,202.312 L1919,269.75 L1919,337.188 L1919,404.625 L1919,472.062 L1919,539.5 L1919,606.938 L1919,674.375 L1919,741.812 L1919,809.25 L1919,876.688 L1919,944.125 L1919,1011.56 L1919,1079 L1849.57,1060.39 L1780.14,1041.78 L1710.7,1023.17 L1641.27,1004.56 L1571.84,985.947 L1502.41,967.337 L1432.98,948.726 L1363.54,930.116 L1294.11,911.505 L1224.68,892.895 L1155.25,874.284 L1085.81,855.673 L1016.38,837.063 L946.951,818.452 L877.519,799.842 L808.086,781.231 L796.052,741.453 L784.017,701.674 L771.982,661.895 L759.947,622.116 L747.912,582.338 L735.877,542.559 L723.842,502.78 L711.807,463.001 L699.772,423.223 L687.738,383.444 L675.703,343.665 L663.668,303.887 L651.633,264.108 L639.598,224.329 L627.563,184.55 L615.528,144.772"/>
+</g>
+</g>
+</svg>
