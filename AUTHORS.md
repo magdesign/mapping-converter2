@@ -3,6 +3,6 @@ Code:
 Jayson http://jaysonh.com/
 
 
-Idea, Supoort, Sponsoring:
+Idea, Suport, Sponsoring:
 
 Marc-André Gasser https://www.pocketvj.com
