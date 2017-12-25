@@ -7,6 +7,12 @@ Missing files: Makefile, addons.make
 
 For compiling you need following ofxAddons: ...?
 
-Clone mappingconverter2 to /apps/myApps or is it /home/pi/openFrameworks/addons/
+Clone mappingconverter2 to /home/pi/openFrameworks/addons/
 
-still not sure how to get further......
+
+
+go to: /home/pi/openFrameworks/apps/projectGenerator/commandLine/bin and execute:
+
+sudo ./projectGenerator -o"../../../../" ../../../../addons/mapping-converter2/
+
+(you can delete or update all the readme stuff if there is a working makefile added....)
