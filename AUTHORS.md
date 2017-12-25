@@ -1,8 +1,8 @@
 Code:
 
-Jayson http://jaysonh.com/
+Jayson Haebich http://jaysonh.com/
 
 
-Idea, Supoort, Sponsoring:
+Idea, Suport, Sponsoring:
 
 Marc-André Gasser https://www.pocketvj.com
