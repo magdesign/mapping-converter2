@@ -5,10 +5,11 @@
 #include "ofxXmlSettings.h"
 #include "SVGLoader.h"
 
+
 class ofApp : public ofBaseApp{
 
 	public:
-		ofApp( char *inputFile, char *outputFile );
+		ofApp( char *inputFile, char *outputFile, int mirror );
 
 		void setup();
 		void update();

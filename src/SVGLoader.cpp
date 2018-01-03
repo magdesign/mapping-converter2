@@ -9,8 +9,10 @@
 #include "SVGLoader.h"
 
 // load xml file
-bool SVGLoader::load( string filepath )
+bool SVGLoader::load( string filepath, int mirror )
 {
+    mMirror = mirror;
+
     ofxXmlSettings xml;
 
     cout << "loading xml file: " << filepath << endl;
@@ -54,7 +56,7 @@ bool SVGLoader::load( string filepath )
 	                
 	                if(commandList.size() > 0)
 	                {
-	                    SVGSurface surface = loadSurface( transform, commandList );
+	                     SVGSurface surface = loadSurface( transform, commandList );
 	                     mSurfaces.push_back( surface );
 	                }
 	                xml.popTag();
@@ -83,55 +85,59 @@ void SVGLoader::save(string filepath)
 
 	for( int i = 0; i < mSurfaces.size(); i++)
 	{
-		outputFile << "<surface type=\"" << (int)mSurfaces[i].getType() << "\">" << endl;
-
-		vector <ofVec2f> verts = mSurfaces[i].getVerts();
-		outputFile << "<vertices>" <<endl;
-
-		for(int j = 0; j < verts.size(); j++ )
+		// Mad mapper always includes screen dimensions as a vector object first, so do not add it
+		if( (mOutputProgram == MAD_MAPPER && i >= 1) || mOutputProgram == MAPIO)
 		{
-			outputFile << "<vertex>" << endl;
-			outputFile << "<x>" << verts[j].x << "</x>" << endl;
-			outputFile << "<y>" << verts[j].y << "</y>" << endl;
-			outputFile << "</vertex>" << endl;
-		}
-
-		outputFile << "</vertices>" << endl;
-
-		outputFile << "<texCoords>" << endl;
-
-		outputFile << "<texCoord>" << endl;
-		outputFile << "<x>0.0000</x>" << endl;
-		outputFile << "<y>0.0000</y>" << endl;
-		outputFile << "</texCoord>" << endl;
-
-		outputFile << "<texCoord>" << endl;
-		outputFile << "<x>1.0000</x>" << endl;
-		outputFile << "<y>0.0000</y>" << endl;
-		outputFile << "</texCoord>" << endl;
-
-		outputFile << "<texCoord>" << endl;
-		outputFile << "<x>1.0000</x>" << endl;
-		outputFile << "<y>1.0000</y>" << endl;
-		outputFile << "</texCoord>" << endl;
-
-		outputFile << "<texCoord>" << endl;
-		outputFile << "<x>0.0000</x>" << endl;
-		outputFile << "<y>1.0000</y>" << endl;
-		outputFile << "</texCoord>" << endl;
-
-		outputFile << "</texCoords>" << endl;
-
-		outputFile << "<source>" << endl;
-		outputFile << "<source-type>none</source-type>" << endl;
-		outputFile << "<source-name>none</source-name>" << endl;
-		outputFile << "</source>" << endl;
-		
-		outputFile << "<properties>" << endl;
-		outputFile << "<perspectiveWarping>1</perspectiveWarping>"<<endl;
-		outputFile << "</properties>" <<endl;
-
+			outputFile << "<surface type=\"" << (int)mSurfaces[i].getType() << "\">" << endl;
+	
+			vector <ofVec2f> verts = mSurfaces[i].getVerts();
+			outputFile << "<vertices>" <<endl;
+	
+			for(int j = 0; j < verts.size(); j++ )
+			{
+				outputFile << "<vertex>" << endl;
+				outputFile << "<x>" << verts[j].x << "</x>" << endl;
+				outputFile << "<y>" << verts[j].y << "</y>" << endl;
+				outputFile << "</vertex>" << endl;
+			}
+	
+			outputFile << "</vertices>" << endl;
+	
+			outputFile << "<texCoords>" << endl;
+	
+			outputFile << "<texCoord>" << endl;
+			outputFile << "<x>0.0000</x>" << endl;
+			outputFile << "<y>0.0000</y>" << endl;
+			outputFile << "</texCoord>" << endl;
+	
+			outputFile << "<texCoord>" << endl;
+			outputFile << "<x>1.0000</x>" << endl;
+			outputFile << "<y>0.0000</y>" << endl;
+			outputFile << "</texCoord>" << endl;
+	
+			outputFile << "<texCoord>" << endl;
+			outputFile << "<x>1.0000</x>" << endl;
+			outputFile << "<y>1.0000</y>" << endl;
+			outputFile << "</texCoord>" << endl;
+	
+			outputFile << "<texCoord>" << endl;
+			outputFile << "<x>0.0000</x>" << endl;
+			outputFile << "<y>1.0000</y>" << endl;
+			outputFile << "</texCoord>" << endl;
+	
+			outputFile << "</texCoords>" << endl;
+	
+			outputFile << "<source>" << endl;
+			outputFile << "<source-type>none</source-type>" << endl;
+			outputFile << "<source-name>none</source-name>" << endl;
+			outputFile << "</source>" << endl;
+			
+			outputFile << "<properties>" << endl;
+			outputFile << "<perspectiveWarping>1</perspectiveWarping>"<<endl;
+			outputFile << "</properties>" <<endl;
+	
 		outputFile << "</surface>" << endl;
+		}
 		
 	}
 	
@@ -159,7 +165,7 @@ void SVGLoader::draw()
                 ofVertex(verts[j].x, verts[j].y);
             }
 
-            ofEndShape();
+            ofEndShape(true);
         }
 }
 
@@ -180,7 +186,7 @@ SVGSurface SVGLoader::loadSurface( string transform, string commandList )
     transMat[6] = 0.0;
     transMat[7] = 0.0;
     transMat[8] = 1.0;
-    
+
     vector<string> commands = ofSplitString(commandList, " ");
     
     ofPolyline path;
@@ -198,8 +204,12 @@ SVGSurface SVGLoader::loadSurface( string transform, string commandList )
             
             ofVec2f pos = ofVec2f( ofToFloat(coordsStr[0]), ofToFloat(coordsStr[1]));
             
-            ofVec2f transformedPos = applyMatrix( transMat, pos );
-            
+            ofVec2f transformedPos = applyMatrix( transMat,         pos            );
+	    if(mMirror == 1)
+	    {
+            	transformedPos         = ofVec2f( mViewBox.width - transformedPos.x, mViewBox.height - transformedPos.y);//applyMatrix( reflectionMatrix, transformedPos );
+	    }
+
             path.addVertex(transformedPos);
         }
 	// Line command
@@ -210,11 +220,18 @@ SVGSurface SVGLoader::loadSurface( string transform, string commandList )
             
             ofVec2f pos = ofVec2f( ofToFloat(coordsStr[0]), ofToFloat(coordsStr[1]));
             
-            ofVec2f transformedPos = applyMatrix( transMat, pos );
+            ofVec2f transformedPos = applyMatrix( transMat,         pos            );
+            if(mMirror == 1)
+	    {
+            	transformedPos         = ofVec2f( mViewBox.width - transformedPos.x, mViewBox.height - transformedPos.y);//applyMatrix( reflectionMatrix, transformedPos );
+	    }
+
             path.addVertex(transformedPos);
 
         }
     }
+
+    
 
     // Load ofPolyline into an SVGSurface object and return it from the function
     return SVGSurface(path);

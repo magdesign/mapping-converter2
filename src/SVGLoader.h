@@ -17,7 +17,7 @@ class SVGLoader
 {
 public:
     
-    bool load( string filepath );
+    bool load( string filepath, int mirror );
     void save( string filepath );
     void draw();
 
@@ -31,6 +31,7 @@ private:
     OutputProgram       mOutputProgram;
     vector <SVGSurface> mSurfaces;
     ofRectangle         mViewBox;
+    int 		mMirror;
 };
 
 #endif /* SVGLoader_h */
