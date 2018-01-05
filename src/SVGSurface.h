@@ -23,9 +23,9 @@ public:
 	// Save ofPolyline points to our vector list
 	vector <ofPoint> verts = path.getVertices();
 
-	for(int i = 0; i < verts.size(); i++)
+	for( auto it = verts.begin(); it != verts.end(); it++)
 	{
-		mPoints.push_back( ofVec2f(verts[i].x, verts[i].y) );
+		mPoints.push_back( ofVec2f( *it ) );
 	}
 
 	// if first and last points are the same then remove one of them

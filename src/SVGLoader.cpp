@@ -120,11 +120,11 @@ void SVGLoader::save(string filepath)
 			vector <ofVec2f> verts = mSurfaces[i].getVerts();
 			outputFile << "<vertices>" <<endl;
 	
-			for(int j = 0; j < verts.size(); j++ )
+			for( auto it = verts.begin(); it != verts.end(); it++)
 			{
 				outputFile << "<vertex>" << endl;
-				outputFile << "<x>" << verts[j].x << "</x>" << endl;
-				outputFile << "<y>" << verts[j].y << "</y>" << endl;
+				outputFile << "<x>" << (*it).x << "</x>" << endl;
+				outputFile << "<y>" << (*it).y << "</y>" << endl;
 				outputFile << "</vertex>" << endl;
 			}
 	
@@ -135,11 +135,11 @@ void SVGLoader::save(string filepath)
 			
 			vector <ofVec2f> texCoords = getTexCoords(mSurfaces[i].getType(), mOutputProgram);
 			
-			for(int j = 0; j < texCoords.size(); j++)
+			for( auto it = texCoords.begin(); it != texCoords.end(); it++ )
 			{
 				outputFile << "<texCoord>" << endl;
-				outputFile << "<x>" << texCoords[j].x << "</x>" << endl;
-				outputFile << "<y>" << texCoords[j].y << "</y>" << endl;
+				outputFile << "<x>" << (*it).x << "</x>" << endl;
+				outputFile << "<y>" << (*it).y << "</y>" << endl;
 				outputFile << "</texCoord>" << endl;
 			}
 			outputFile << "</texCoords>" << endl;
@@ -169,17 +169,16 @@ void SVGLoader::draw()
 	ofNoFill();
 	ofSetColor(255,255,255);
 
-	for(int i = 0; i < mSurfaces.size(); i++)
+	for( auto surfacesIt = mSurfaces.begin(); surfacesIt != mSurfaces.end(); surfacesIt++)
 	{
-	    int indx = i;
-
-	    vector <ofVec2f> verts = mSurfaces[indx].getVerts();
+	    
+	    vector <ofVec2f> verts = (*surfacesIt).getVerts();
 	   
 	    ofBeginShape();
             
-            for(int j = 0; j < verts.size();j++)
+	    for( auto vertsIt = verts.begin(); vertsIt != verts.end(); vertsIt++)
             {
-                ofVertex(verts[j].x, verts[j].y);
+                ofVertex((*vertsIt).x, (*vertsIt).y);
             }
 
             ofEndShape(true);
@@ -207,16 +206,16 @@ SVGSurface SVGLoader::loadSurface( string transform, string commandList )
     vector<string> commands = ofSplitString(commandList, " ");
     
     ofPolyline path;
-    //vector<ofVec2f> shape;
     
-    for(int j = 0; j < commands.size();j++)
+    //for(int j = 0; j < commands.size();j++)
+    for( auto commandsIt = commands.begin(); commandsIt != commands.end(); commandsIt++ )
     {
-        char commandType = commands[j].at(0);
+        char commandType = (*commandsIt).at(0);
         
         // Move command
         if(commandType == 'M')
         {
-            vector<string> tmp = ofSplitString(commands[j], "M");
+            vector<string> tmp = ofSplitString((*commandsIt), "M");
             vector<string>coordsStr = ofSplitString(tmp[1],",");
             
             ofVec2f pos = ofVec2f( ofToFloat(coordsStr[0]), ofToFloat(coordsStr[1]));
@@ -232,7 +231,7 @@ SVGSurface SVGLoader::loadSurface( string transform, string commandList )
 	// Line command
 	else if(commandType == 'L')
         {
-            vector<string> tmp = ofSplitString(commands[j], "L");
+            vector<string> tmp = ofSplitString((*commandsIt), "L");
             vector<string>coordsStr = ofSplitString(tmp[1],",");
             
             ofVec2f pos = ofVec2f( ofToFloat(coordsStr[0]), ofToFloat(coordsStr[1]));
