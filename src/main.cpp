@@ -12,7 +12,7 @@ int main( int argc, char *argv[] )
 		// can be OF_WINDOW or OF_FULLSCREEN
 		// pass in width and height too:
 
-		int mirror = 1;
+		int mirror = 0;
 		if(argc > 3)
 		{
 			mirror = ofToInt(argv[3]);

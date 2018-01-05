@@ -73,6 +73,33 @@ bool SVGLoader::load( string filepath, int mirror )
     }
 }
 
+vector <ofVec2f> SVGLoader::getTexCoords( SurfaceType surfaceType, OutputProgram program)
+{
+	vector <ofVec2f> texCoords;
+
+	if(program == MAD_MAPPER)
+	{
+		texCoords.push_back(ofVec2f(1.0, 0.0));
+		texCoords.push_back(ofVec2f(0.0, 0.0));
+		texCoords.push_back(ofVec2f(0.0, 1.0));
+		texCoords.push_back(ofVec2f(1.0, 1.0));
+		
+	}else if(program == MAPIO)
+	{
+		
+		texCoords.push_back(ofVec2f(1.0, 1.0));
+		texCoords.push_back(ofVec2f(0.0, 1.0));
+		texCoords.push_back(ofVec2f(0.0, 0.0));
+		texCoords.push_back(ofVec2f(1.0, 0.0));
+		
+	}else
+	{
+		cout << "Error invalid program type when exporting tex coords" << endl;
+	}
+
+	return texCoords;
+}
+
 // Save svg to an xml file
 void SVGLoader::save(string filepath)
 {
@@ -102,31 +129,21 @@ void SVGLoader::save(string filepath)
 			}
 	
 			outputFile << "</vertices>" << endl;
-	
+			
+			
 			outputFile << "<texCoords>" << endl;
-	
-			outputFile << "<texCoord>" << endl;
-			outputFile << "<x>0.0000</x>" << endl;
-			outputFile << "<y>0.0000</y>" << endl;
-			outputFile << "</texCoord>" << endl;
-	
-			outputFile << "<texCoord>" << endl;
-			outputFile << "<x>1.0000</x>" << endl;
-			outputFile << "<y>0.0000</y>" << endl;
-			outputFile << "</texCoord>" << endl;
-	
-			outputFile << "<texCoord>" << endl;
-			outputFile << "<x>1.0000</x>" << endl;
-			outputFile << "<y>1.0000</y>" << endl;
-			outputFile << "</texCoord>" << endl;
-	
-			outputFile << "<texCoord>" << endl;
-			outputFile << "<x>0.0000</x>" << endl;
-			outputFile << "<y>1.0000</y>" << endl;
-			outputFile << "</texCoord>" << endl;
-	
+			
+			vector <ofVec2f> texCoords = getTexCoords(mSurfaces[i].getType(), mOutputProgram);
+			
+			for(int j = 0; j < texCoords.size(); j++)
+			{
+				outputFile << "<texCoord>" << endl;
+				outputFile << "<x>" << texCoords[j].x << "</x>" << endl;
+				outputFile << "<y>" << texCoords[j].y << "</y>" << endl;
+				outputFile << "</texCoord>" << endl;
+			}
 			outputFile << "</texCoords>" << endl;
-	
+			
 			outputFile << "<source>" << endl;
 			outputFile << "<source-type>none</source-type>" << endl;
 			outputFile << "<source-name>none</source-name>" << endl;
@@ -207,7 +224,7 @@ SVGSurface SVGLoader::loadSurface( string transform, string commandList )
             ofVec2f transformedPos = applyMatrix( transMat,         pos            );
 	    if(mMirror == 1)
 	    {
-            	transformedPos         = ofVec2f( mViewBox.width - transformedPos.x, mViewBox.height - transformedPos.y);//applyMatrix( reflectionMatrix, transformedPos );
+            	transformedPos         = ofVec2f( mViewBox.width - transformedPos.x, mViewBox.height - transformedPos.y);
 	    }
 
             path.addVertex(transformedPos);

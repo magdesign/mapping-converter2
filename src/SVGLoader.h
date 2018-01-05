@@ -23,6 +23,8 @@ public:
 
 private:
     
+vector <ofVec2f> getTexCoords( SurfaceType surfaceType, OutputProgram program);
+
     // Private functions
     SVGSurface loadSurface( string transform, string commandList );
     ofVec2f    applyMatrix( float * matrix, ofVec2f p );
