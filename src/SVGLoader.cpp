@@ -79,18 +79,29 @@ vector <ofVec2f> SVGLoader::getTexCoords( SurfaceType surfaceType, OutputProgram
 
 	if(program == MAD_MAPPER)
 	{
-		texCoords.push_back(ofVec2f(1.0, 0.0));
-		texCoords.push_back(ofVec2f(0.0, 0.0));
-		texCoords.push_back(ofVec2f(0.0, 1.0));
-		texCoords.push_back(ofVec2f(1.0, 1.0));
+		if(surfaceType == TRIANGLE)
+		{
+			texCoords.push_back(ofVec2f(0.0, 0.0));
+			texCoords.push_back(ofVec2f(1.0, 0.0));
+			texCoords.push_back(ofVec2f(1.0, 1.0));
+			texCoords.push_back(ofVec2f(0.0, 1.0));
+			texCoords.push_back(ofVec2f(0.0, 1.0));
+			
+		}else if(surfaceType == QUAD)
+		{
+			texCoords.push_back(ofVec2f(0.0, 1.0));
+			texCoords.push_back(ofVec2f(1.0, 1.0));
+			texCoords.push_back(ofVec2f(1.0, 0.0));
+			texCoords.push_back(ofVec2f(0.0, 0.0));
+		}
 		
 	}else if(program == MAPIO)
 	{
 		
-		texCoords.push_back(ofVec2f(1.0, 1.0));
-		texCoords.push_back(ofVec2f(0.0, 1.0));
 		texCoords.push_back(ofVec2f(0.0, 0.0));
 		texCoords.push_back(ofVec2f(1.0, 0.0));
+		texCoords.push_back(ofVec2f(1.0, 1.0));
+		texCoords.push_back(ofVec2f(0.0, 1.0));
 		
 	}else
 	{
