@@ -7,6 +7,7 @@ Then clone this to apps/myapps and compile.
 Specially designed for PocketVJ/Rpi/ofxPiMapper.
 
 You may use this software for free for your private/student projects.
+
 You have to include the AUTHORS.md file.
 
 Its also nice and motivating when you send me infos about the project you are using it.
